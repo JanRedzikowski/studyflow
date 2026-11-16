@@ -1,4 +1,8 @@
+import ui.StudyFlowWindow
+import javax.swing.SwingUtilities
+
 fun main() {
-    println("Hello, welcome to StudyFlow!")
-    println("Your student productivity app is running.")
+    SwingUtilities.invokeLater {
+        StudyFlowWindow().isVisible = true
+    }
 }

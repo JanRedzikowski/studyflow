@@ -18,6 +18,10 @@ class StudyFlowWindow : JFrame("StudyFlow") {
     private val cardWhite = Color(247, 243, 252)
     private val upcomingPurple = Color(116, 104, 135)
 
+
+    // Dashboard
+    val dashboardPanel = createDashboard()
+
     private val pageTitle = JLabel(
         "Welcome to StudyFlow!",
         SwingConstants.CENTER
@@ -29,55 +33,26 @@ class StudyFlowWindow : JFrame("StudyFlow") {
         setLocationRelativeTo(null)
         layout = BorderLayout()
 
-        //Sidebar
-        val sidebar = JPanel()
-        sidebar.layout = BoxLayout(sidebar, BoxLayout.Y_AXIS)
-        sidebar.preferredSize = Dimension(220, 0)
-        sidebar.background = darkPurple
-        sidebar.border = BorderFactory.createEmptyBorder(20, 20, 20, 20)
-
-        //Sidebar title
-        val title = JLabel("StudyFlow")
-        title.font = Font("SansSerif", Font.BOLD, 26)
-        title.foreground = white
-        title.alignmentX = Component.LEFT_ALIGNMENT
-
-        sidebar.add(title)
-        sidebar.add(Box.createVerticalStrut(30))
-
-        //Navigation buttons
+        //Button/Navigation actions
         val dashboardButton = JButton("Dashboard")
         val tasksButton = JButton("Tasks")
         val modulesButton = JButton("Modules")
 
-        for(button in listOf(
-            dashboardButton,
-            tasksButton,
-            modulesButton
-        )) {
-            button.background = buttonPurple
-            button.foreground = white
-            button.maximumSize = Dimension(Int.MAX_VALUE, 45)
-            button.alignmentX = Component.LEFT_ALIGNMENT
-
-            sidebar.add(button)
-            sidebar.add(Box.createVerticalStrut(10))
-        }
+        //Create the sidebar
+        val sidebar = createSidebar(
+            listOf(dashboardButton, tasksButton, modulesButton))
 
         //Main content area
         val contentPanel = JPanel(BorderLayout())
         contentPanel.background = white
-
-        pageTitle.font = Font("SansSerif", Font.BOLD, 28
-        )
-        pageTitle.foreground = darkPurple
-
-        contentPanel.add(pageTitle, BorderLayout.CENTER)
+        contentPanel.border = BorderFactory.createEmptyBorder(35, 40, 35, 40)
 
         //Welcome heading
         pageTitle.font = Font("SansSerif", Font.BOLD, 28)
         pageTitle.foreground = darkPurple
         pageTitle.horizontalAlignment = SwingConstants.LEFT
+
+        contentPanel.add(pageTitle, BorderLayout.NORTH)
 
         //Dashboard container
         val dashboardPanel = JPanel()
@@ -89,13 +64,14 @@ class StudyFlowWindow : JFrame("StudyFlow") {
 
         //Dashboard subtitle
         val subtitle = JLabel("Here is your study overview.")
-        font = Font("SansSerif", Font.PLAIN, 15)
+        subtitle.font = Font("SansSerif", Font.PLAIN, 15)
         subtitle.foreground = subTitlePurple
         subtitle.alignmentX = Component.LEFT_ALIGNMENT
 
         dashboardPanel.add(Box.createVerticalStrut(20))
         dashboardPanel.add(subtitle)
         dashboardPanel.add(Box.createVerticalStrut(25))
+
 
         //Statistics cards
         val statsPanel = JPanel(GridLayout(1, 3, 15, 0))
@@ -110,6 +86,21 @@ class StudyFlowWindow : JFrame("StudyFlow") {
         dashboardPanel.add(statsPanel)
         dashboardPanel.add(Box.createVerticalStrut(25))
 
+        //Navigation button functionality
+        dashboardButton.addActionListener {
+            pageTitle.text = "Welcome to StudyFlow"
+            dashboardPanel.isVisible = true
+        }
+
+        tasksButton.addActionListener {
+            pageTitle.text = "Tasks - coming soon."
+            dashboardPanel.isVisible = false
+        }
+
+        modulesButton.addActionListener {
+            pageTitle.text = "Modules - coming soon."
+            dashboardPanel.isVisible = false
+        }
 
         //Upcoming tasks section
         val upcomingPanel = JPanel(BorderLayout(0, 12))
@@ -133,23 +124,6 @@ class StudyFlowWindow : JFrame("StudyFlow") {
         contentPanel.add(dashboardPanel, BorderLayout.CENTER)
 
 
-        //Button/Navigation actions
-        dashboardButton.addActionListener {
-            pageTitle.text = "Welcome to StudyFlow"
-            dashboardPanel.isVisible = true
-        }
-
-        tasksButton.addActionListener {
-            pageTitle.text = "Tasks - coming soon!"
-            dashboardPanel.isVisible = false
-        }
-
-        modulesButton.addActionListener {
-            pageTitle.text = "Modules - coming soon!"
-            dashboardPanel.isVisible = false
-        }
-
-        //Add panels to the window
         add(sidebar, BorderLayout.WEST)
         add(contentPanel, BorderLayout.CENTER)
     }
@@ -172,5 +146,57 @@ class StudyFlowWindow : JFrame("StudyFlow") {
         card.add(cardValue, BorderLayout.CENTER)
 
         return card
+    }
+
+    private fun createSidebar(buttons: List<JButton>): JPanel {
+
+        // Create sidebar
+        val sidebar = JPanel()
+        sidebar.layout = BoxLayout(sidebar, BoxLayout.Y_AXIS)
+        sidebar.preferredSize = Dimension(220,0)
+        sidebar.background = darkPurple
+        sidebar.border = BorderFactory.createEmptyBorder(20, 20, 20, 20)
+
+        //Sidebar title
+        val title = JLabel("StudyFlow")
+        title.font = Font("SansSerif", Font.BOLD, 26)
+        title.foreground = white
+        title.alignmentX = Component.LEFT_ALIGNMENT
+
+        sidebar.add(title)
+        sidebar.add(Box.createVerticalStrut(30))
+
+        //Navigation buttons
+        for(button in buttons){
+            button.background = buttonPurple
+            button.foreground = white
+            button.maximumSize = Dimension(Int.MAX_VALUE, 45)
+            button.alignmentX = Component.LEFT_ALIGNMENT
+
+            button.putClientProperty(
+                "JButton.buttonType",
+                "roundRect"
+            )
+
+            sidebar.add(button)
+            sidebar.add(Box.createVerticalStrut(10))
+        }
+
+        return sidebar
+
+
+    }
+
+    private fun createDashboard(): JPanel {
+        val dashboardPanel = JPanel()
+
+        dashboardPanel.layout = BoxLayout(
+            dashboardPanel,
+            BoxLayout.Y_AXIS
+        )
+
+        dashboardPanel.background = white
+
+        return dashboardPanel
     }
 }

@@ -13,7 +13,7 @@ class StudyFlowWindow : JFrame("StudyFlow") {
     //Apps color scheme
     private val darkPurple = Color(48, 20, 83)
     private val buttonPurple = Color(96, 55, 153)
-    private val white = Color(255,255, 255)
+    private val white = Color(255, 255, 255)
     private val subTitlePurple = Color(116, 104, 135)
     private val cardWhite = Color(247, 243, 252)
     private val upcomingPurple = Color(116, 104, 135)
@@ -103,30 +103,9 @@ class StudyFlowWindow : JFrame("StudyFlow") {
         statsPanel.maximumSize = Dimension(Int.MAX_VALUE, 120)
         statsPanel.alignmentX = Component.LEFT_ALIGNMENT
 
-        val statistics = listOf(
-            "Total Tasks" to "0",
-            "Completed" to "0",
-            "Pending" to "0"
-        )
-
-        for ((name, value) in statistics) {
-            val card = JPanel(BorderLayout())
-            card.background = cardWhite
-            card.border = BorderFactory.createEmptyBorder(20, 20, 20, 20)
-            card.putClientProperty("FlatLaf.style", "arc: 30")
-            val cardTitle = JLabel(name)
-            cardTitle.foreground = darkPurple
-            cardTitle.font = Font("SansSerif", Font.PLAIN, 14)
-
-            val cardValue = JLabel(value)
-            cardValue.foreground = buttonPurple
-            cardValue.font = Font("SansSerif", Font.BOLD, 32)
-
-            card.add(cardTitle, BorderLayout.NORTH)
-            card.add(cardValue, BorderLayout.CENTER)
-
-            statsPanel.add(card)
-        }
+        statsPanel.add(createStatCard("Total Tasks", "0"))
+        statsPanel.add(createStatCard("Completed", "0"))
+        statsPanel.add(createStatCard("Pending", "0"))
 
         dashboardPanel.add(statsPanel)
         dashboardPanel.add(Box.createVerticalStrut(25))
@@ -173,5 +152,25 @@ class StudyFlowWindow : JFrame("StudyFlow") {
         //Add panels to the window
         add(sidebar, BorderLayout.WEST)
         add(contentPanel, BorderLayout.CENTER)
+    }
+
+    private fun createStatCard(name: String, value: String): JPanel {
+
+        val card = JPanel(BorderLayout())
+        card.background = white
+        card.border = BorderFactory.createEmptyBorder(20, 20, 20, 20)
+
+        val cardTitle = JLabel(name)
+        cardTitle.foreground = darkPurple
+        cardTitle.font = Font("SansSerif", Font.PLAIN, 15)
+
+        val cardValue = JLabel(value)
+        cardValue.foreground = buttonPurple
+        cardValue.font = Font("SansSerif", Font.BOLD, 32)
+
+        card.add(cardTitle, BorderLayout.NORTH)
+        card.add(cardValue, BorderLayout.CENTER)
+
+        return card
     }
 }

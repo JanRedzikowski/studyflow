@@ -14,7 +14,7 @@ StudyFlow is currently in development. Planned features include:
 - **Search & Filtering** — Quickly find tasks by module, priority, or status.
 - **Modern GUI** — A user-friendly desktop interface with a dark theme.
 
-## Technologies
+## Tooling/Languages used
 
 - **Kotlin** — Application development
 - **Java Swing** — Graphical user interface
